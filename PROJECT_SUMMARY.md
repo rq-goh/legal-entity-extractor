@@ -15,7 +15,7 @@ A full-stack web application that extracts legal entities and relationships from
 - **HTTP Client:** Axios
 
 ### Backend (Node.js + Express)
-- **Runtime:** Node.js 18+
+- **Runtime:** Node.js 24.x
 - **Framework:** Express.js
 - **File Upload:** Multer
 - **Document Parsing:** Mammoth (DOCX), native PDF parsing

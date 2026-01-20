@@ -5,7 +5,7 @@ This guide covers deploying the Legal Entity Extractor to Vercel, Render, or Her
 ## Prerequisites
 
 - GitHub account with repository access
-- Node.js 18+ (for local testing)
+- Node.js 24.x (for local testing)
 - OpenAI API key (users will provide their own)
 
 ## Quick Start - Local Testing

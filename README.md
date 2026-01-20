@@ -31,7 +31,7 @@ A full-stack web application that extracts legal entities and relationships from
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24.x
 - npm or pnpm
 - OpenAI API key (get from https://platform.openai.com/api-keys)
 
