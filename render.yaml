@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: legal-entity-extractor
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    routes:
+      - path: /api
+        destination: /api
+      - path: /
+        destination: /index.html
