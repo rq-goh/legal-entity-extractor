@@ -33,9 +33,16 @@ app.get('/api/health', (req, res) => {
 
 // Serve static files from client build
 // Use project root directory (working directory)
-const projectRoot = process.cwd();
+let projectRoot = process.cwd();
+console.log('Initial cwd:', projectRoot);
+
+// If we're in a src subdirectory, go up to parent
+if (projectRoot.endsWith('/src') || projectRoot.endsWith('\\src')) {
+  projectRoot = path.dirname(projectRoot);
+  console.log('Adjusted to parent directory:', projectRoot);
+}
+
 const clientBuildPath = path.join(projectRoot, 'client', 'dist');
-console.log('Project root:', projectRoot);
 console.log('Client build path:', clientBuildPath);
 console.log('Client dist exists:', fs.existsSync(clientBuildPath));
 console.log('index.html exists:', fs.existsSync(path.join(clientBuildPath, 'index.html')));
@@ -49,7 +56,13 @@ app.get('*', (req, res) => {
     res.sendFile(indexPath);
   } else {
     console.error('index.html not found at:', indexPath);
-    res.status(404).json({ error: 'index.html not found', path: indexPath, cwd: process.cwd() });
+    res.status(404).json({ 
+      error: 'index.html not found', 
+      path: indexPath, 
+      cwd: process.cwd(),
+      clientBuildPath: clientBuildPath,
+      exists: fs.existsSync(clientBuildPath)
+    });
   }
 });
 
