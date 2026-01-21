@@ -34,6 +34,7 @@ app.get('/api/health', (req, res) => {
 // Serve static files from client build
 // Use project root directory (working directory)
 let projectRoot = process.cwd();
+console.log('='.repeat(50));
 console.log('Initial cwd:', projectRoot);
 
 // If we're in a src subdirectory, go up to parent
@@ -45,23 +46,38 @@ if (projectRoot.endsWith('/src') || projectRoot.endsWith('\\src')) {
 const clientBuildPath = path.join(projectRoot, 'client', 'dist');
 console.log('Client build path:', clientBuildPath);
 console.log('Client dist exists:', fs.existsSync(clientBuildPath));
-console.log('index.html exists:', fs.existsSync(path.join(clientBuildPath, 'index.html')));
+
+// List directory contents for debugging
+if (fs.existsSync(path.join(projectRoot, 'client'))) {
+  console.log('Contents of client/:', fs.readdirSync(path.join(projectRoot, 'client')));
+} else {
+  console.warn('⚠️  client/ directory not found');
+}
+
+const indexPath = path.join(clientBuildPath, 'index.html');
+console.log('index.html path:', indexPath);
+console.log('index.html exists:', fs.existsSync(indexPath));
+console.log('='.repeat(50));
 
 app.use(express.static(clientBuildPath));
 
 // SPA fallback - serve index.html for all non-API routes
 app.get('*', (req, res) => {
-  const indexPath = path.join(clientBuildPath, 'index.html');
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    console.error('index.html not found at:', indexPath);
+    console.error('❌ index.html not found at:', indexPath);
     res.status(404).json({ 
       error: 'index.html not found', 
       path: indexPath, 
       cwd: process.cwd(),
       clientBuildPath: clientBuildPath,
-      exists: fs.existsSync(clientBuildPath)
+      exists: fs.existsSync(clientBuildPath),
+      debug: {
+        projectRoot: projectRoot,
+        clientDirExists: fs.existsSync(path.join(projectRoot, 'client')),
+        clientContents: fs.existsSync(path.join(projectRoot, 'client')) ? fs.readdirSync(path.join(projectRoot, 'client')) : 'N/A'
+      }
     });
   }
 });
