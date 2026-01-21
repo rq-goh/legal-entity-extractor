@@ -32,13 +32,13 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve static files from client build
-const clientBuildPath = path.resolve(__dirname, '../client/dist');
+// Use project root directory (working directory)
+const projectRoot = process.cwd();
+const clientBuildPath = path.join(projectRoot, 'client', 'dist');
+console.log('Project root:', projectRoot);
 console.log('Client build path:', clientBuildPath);
-
-// Check if dist exists
-if (!fs.existsSync(clientBuildPath)) {
-  console.warn('⚠️  Warning: client/dist directory not found at', clientBuildPath);
-}
+console.log('Client dist exists:', fs.existsSync(clientBuildPath));
+console.log('index.html exists:', fs.existsSync(path.join(clientBuildPath, 'index.html')));
 
 app.use(express.static(clientBuildPath));
 
@@ -48,7 +48,8 @@ app.get('*', (req, res) => {
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).json({ error: 'index.html not found', path: indexPath });
+    console.error('index.html not found at:', indexPath);
+    res.status(404).json({ error: 'index.html not found', path: indexPath, cwd: process.cwd() });
   }
 });
 
