@@ -4,10 +4,16 @@
   "env": {
     "NODE_ENV": "production"
   },
+  "functions": {
+    "api/index.js": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "http://localhost:3000/api/$1"
+      "destination": "/api"
     },
     {
       "source": "/(.*)",
