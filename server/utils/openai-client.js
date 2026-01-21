@@ -71,13 +71,13 @@ export async function extractEntities(request) {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: model || 'gpt-4o-mini',
+        model: model || 'gpt-5-mini',
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: userMessage },
         ],
-        temperature: 0.1,
-        max_tokens: 4000,
+        temperature: 1,
+        max_completion_tokens: 4000,
       },
       {
         headers: {
@@ -161,9 +161,9 @@ export async function testApiKey(apiKey, model) {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: model || 'gpt-4o-mini',
+        model: model || 'gpt-5-mini',
         messages: [{ role: 'user', content: 'Test' }],
-        max_tokens: 5,
+        max_completion_tokens: 5,
       },
       {
         headers: {

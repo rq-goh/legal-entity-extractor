@@ -43,7 +43,7 @@ router.post('/extract', async (req, res) => {
     const result = await extractEntities({
       documents,
       apiKey,
-      model: model || 'gpt-4o-mini',
+      model: model || 'gpt-5-mini',
     });
 
     if (!result.success) {
