@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { testApiKey, testGitHubConnection } from '../api';
 
 const AVAILABLE_MODELS = [
-  { label: 'GPT-4o Mini (Recommended)', value: 'gpt-4o-mini' },
+  { label: 'GPT-5 Mini (Recommended)', value: 'gpt-5-mini' },
+  { label: 'GPT-4o', value: 'gpt-4o' },
+  { label: 'GPT-4o Mini', value: 'gpt-4o-mini' },
   { label: 'GPT-4 Turbo', value: 'gpt-4-turbo' },
   { label: 'GPT-3.5 Turbo', value: 'gpt-3.5-turbo' },
 ];
@@ -10,7 +12,7 @@ const AVAILABLE_MODELS = [
 export default function Settings() {
   const [settings, setSettings] = useState({
     openaiApiKey: '',
-    openaiModel: 'gpt-4o-mini',
+    openaiModel: 'gpt-5-mini',
     githubToken: '',
     githubUsername: '',
     githubRepo: '',
@@ -77,7 +79,7 @@ export default function Settings() {
       localStorage.clear();
       setSettings({
         openaiApiKey: '',
-        openaiModel: 'gpt-4o-mini',
+        openaiModel: 'gpt-5-mini',
         githubToken: '',
         githubUsername: '',
         githubRepo: '',
