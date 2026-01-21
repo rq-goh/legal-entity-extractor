@@ -10,8 +10,5 @@ services:
         value: production
       - key: PORT
         value: 3000
-    routes:
-      - path: /api
-        destination: /api
-      - path: /
-        destination: /index.html
+      - key: OPENAI_API_KEY
+        sync: false
