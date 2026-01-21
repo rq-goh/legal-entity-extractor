@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import uploadRoutes from './routes/upload.js';
 import extractionRoutes from './routes/extraction.js';
@@ -31,12 +32,24 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve static files from client build
-const clientBuildPath = path.join(__dirname, '../client/dist');
+const clientBuildPath = path.resolve(__dirname, '../client/dist');
+console.log('Client build path:', clientBuildPath);
+
+// Check if dist exists
+if (!fs.existsSync(clientBuildPath)) {
+  console.warn('⚠️  Warning: client/dist directory not found at', clientBuildPath);
+}
+
 app.use(express.static(clientBuildPath));
 
 // SPA fallback - serve index.html for all non-API routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(clientBuildPath, 'index.html'));
+  const indexPath = path.join(clientBuildPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ error: 'index.html not found', path: indexPath });
+  }
 });
 
 // Error handling middleware
